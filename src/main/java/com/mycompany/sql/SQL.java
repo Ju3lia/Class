@@ -16,7 +16,7 @@ import java.sql.Statement;
 public class SQL {
 
     public static void main(String[] args) {
-         try (Connection conn = DriverManager.getConnection("jdbc:postgresql://127.0.0.1:5432/test", "postgres", "password")) 
+         try (Connection conn = DriverManager.getConnection("jdbc:postgresql://127.0.0.1:5432/postgres", "postgres", "postgres")) 
         {
             if (conn == null) {
                 System.out.println("Failed to make connection!");
@@ -24,17 +24,17 @@ public class SQL {
             }
             Statement statement = conn.createStatement();
             
-            String sqlBuff = "CREATE TABLE IF NOT EXIST factory(" +
+            String sqlBuff = "CREATE TABLE IF NOT EXISTS factory(" +
                                 "factory_id serial PRIMARY KEY);";
             statement.execute(sqlBuff);
             
-            sqlBuff = "CREATE TABLE IF NOT EXIST station (" +
+            sqlBuff = "CREATE TABLE IF NOT EXISTS station (" +
                         "station_id int," +
                         "station_name varchar(20) PRIMARY KEY," +
                         "time_open time(0)," +
                         "time_close time(0));";      
             statement.execute(sqlBuff);
-            sqlBuff = "CREATE TABLE IF NOT EXIST store (" 
+            sqlBuff = "CREATE TABLE IF NOT EXISTS store (" 
                     +"store_id INT PRIMARY KEY," 
                     +"store_name VARCHAR(20)," 
                     +"store_product TEXT," 
