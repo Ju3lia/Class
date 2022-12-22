@@ -1,0 +1,6 @@
+prod_name,TEXT,NOT NULL,PRIMARY KEY
+prod_type,TEXT,NOT NULL,PRIMARY KEY
+prod_amt,INT 
+prod_price,INT,NOT NULL
+prod_discount,INT,NOT NULL<100
+
