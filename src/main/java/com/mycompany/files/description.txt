@@ -1,0 +1,3 @@
+Grocery store
+Availability of goods, their quantity, price
+Attention - the information is constantly updated!
