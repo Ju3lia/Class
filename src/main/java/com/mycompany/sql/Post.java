@@ -1,4 +1,4 @@
-/*
+ /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
@@ -27,23 +27,23 @@ public class Post implements SQLint {
        } else if (params.length == 0) {
          System.out.println("Heoбходимо добавить данные в таблицу");
       }
-       return 
+       return length();
     }
+
 
     @Override
     public int insert(String[][] values) {
-        if 
-        
+         throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
     public String[] select(String values) {
-        
+         throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
     public void close() throws Exception {
-        
+        throw new UnsupportedOperationException("Not supported yet."); 
     }
 
     @Override
@@ -68,6 +68,10 @@ public class Post implements SQLint {
 
     @Override
     public boolean addColumn(String tableName, String column) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    private boolean length() {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
     
