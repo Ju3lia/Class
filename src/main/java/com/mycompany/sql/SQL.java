@@ -16,7 +16,34 @@ import java.sql.Statement;
 public class SQL {
 
     public static void main(String[] args) {
-         try (Connection conn = DriverManager.getConnection("jdbc:postgresql://127.0.0.1:5432/postgres", "postgres", "postgres")) 
+        var name = "my_table";
+        var url = "jdbc:postgresql://127.0.0.1:5432/postgres";
+       var user = "postgres";
+       var pass = "postgres";
+       var handler = Post.getInstance();
+       var flag = handler.connect(url, user, pass);
+       if (flag) {
+           System.out.println("Connected");
+           var arr = new String[3];
+           arr[0] = "id int";
+           arr[1] = "name text";
+           arr[2] = "last_name varchar(100)";
+           flag = handler.createTable("my_table", arr);
+           if (flag) System.out.println("Created");
+           String[][] array = new String[3][3];
+           String[] tmp = {"safsdaf","sadfsaf","ytuy"};
+           array[0] = tmp.clone();
+           String[] plp = {"safsd","sadfs","yt"};
+           array[1] = plp.clone();
+           String[] php = {"saf","sad","ytjhfjdh"};
+           array[2] = php.clone();
+           int flug = handler.insert(array, name);
+           if (flug) System.out.println("inserted");
+           }
+           }
+       }
+       
+       /* try (Connection conn = DriverManager.getConnection("jdbc:postgresql://127.0.0.1:5432/postgres", "postgres", "postgres")) 
         {
             if (conn == null) {
                 System.out.println("Failed to make connection!");
@@ -50,7 +77,7 @@ public class SQL {
         
         catch (Exception e) {
             e.printStackTrace();
-        }
+        }*/
     }
 }
 
