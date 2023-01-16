@@ -16,32 +16,66 @@ import java.sql.Statement;
 public class SQL {
 
     public static void main(String[] args) {
+        
+       // String[]column = {"col1","col2","col3","col4"};
+       // String [] column1 = {"val1","val2", "val3"};
+       // updateRows ("my_table", "col_to_upd", "cond_col", column, column1);
         var name = "my_table";
         var url = "jdbc:postgresql://127.0.0.1:5432/postgres";
-       var user = "postgres";
-       var pass = "postgres";
-       var handler = Post.getInstance();
-       var flag = handler.connect(url, user, pass);
-       if (flag) {
+        var user = "postgres";
+        var pass = "postgres";
+        var handler = Post.getInstance();
+        var flag = handler.connect(url, user, pass);
+         if (flag) {
            System.out.println("Connected");
+       
            var arr = new String[3];
-           arr[0] = "id int";
+           arr[0] = "id int PRIMARY KEY";
            arr[1] = "name text";
            arr[2] = "last_name varchar(100)";
            flag = handler.createTable("my_table", arr);
            if (flag) System.out.println("Created");
+        
+           
+           String [] column = new String []{"id","name","last_name"};
+           
            String[][] array = new String[3][3];
-           String[] tmp = {"safsdaf","sadfsaf","ytuy"};
+           String[] tmp = {"10","'sadfsaf'","'ytuy'"};
            array[0] = tmp.clone();
-           String[] plp = {"safsd","sadfs","yt"};
+           String[] plp = {"20","'sadfs'","'yt'"};
            array[1] = plp.clone();
-           String[] php = {"saf","sad","ytjhfjdh"};
+           String[] php = {"15","'sad'","'ytjhfjdh'"};
            array[2] = php.clone();
-           int flug = handler.insert(array, name);
-           if (flug) System.out.println("inserted");
+           int flug = handler.insert(array, name, column);
+           System.out.println(flug);
+           } String [] column = new String []{"id","name","last_name"};
+           
+//           String[][] array = new String[3][3];
+//           String[] tmp = {"10","'sadfsaf'","'ytuy'"};
+//           array[0] = tmp.clone();
+//           String[] plp = {"20","'sadfs'","'yt'"};
+//           array[1] = plp.clone();
+//           String[] php = {"15","'sad'","'ytjhfjdh'"};
+//           array[2] = php.clone();
+//           int flug = handler.insert(array, name, column);
+//           System.out.println(flug);
+         
+           var list = handler.select("name,id", name);
+           System.out.println(list);
+           
+           String [] arr = {"10", "15"};
+           String [] ar = {"qwerty", "poiuy"};
+           int flug = handler.updateRows(name, "name", "id" , arr , ar);
+           System.out.println(flug);
+           
+           String [] arrr = {"11111"};
+           boolean flog = handler.updateColumns(name, column, arrr, "name like 'qwerty'");
+           System.out.println(flog);
+           list = handler.select("name,id", name);
+           System.out.println(list);
            }
-           }
-       }
+}
+       
        
        /* try (Connection conn = DriverManager.getConnection("jdbc:postgresql://127.0.0.1:5432/postgres", "postgres", "postgres")) 
         {
@@ -78,6 +112,5 @@ public class SQL {
         catch (Exception e) {
             e.printStackTrace();
         }*/
-    }
-}
+
 
