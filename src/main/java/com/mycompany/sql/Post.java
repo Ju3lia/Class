@@ -59,17 +59,25 @@ public class Post implements SQLint {
     }
 
     @Override
-    public int insert(String[][] values, String tableName) {
+    public int insert(String[][] values, String tableName, String [] columns) {
         try {
-            String sql = "INSERT INTO " + tableName;
+            String sql = "INSERT INTO " + tableName + "(";
+            for (String column: columns) {
+                sql += column + ",";
+            }
+            sql = sql.substring(0, sql.length() - 1);
+            sql += ")" + "VALUES"; 
             for (String[] row : values) {
                 sql += "(";
                 for (String str : row) {
                     sql += str + ',';
                 }
-                sql = sql.substring(0, sql.length() - 2);
+                sql = sql.substring(0, sql.length() - 1);
                 sql += "),";
             }
+            sql = sql.substring(0, sql.length() - 1);
+                sql += ";";
+            System.out.println(sql);
             return stm.executeUpdate(sql);
         } catch (Exception e) {
             return (-1);
@@ -84,11 +92,13 @@ public class Post implements SQLint {
             String sql = "SELECT " + values + " FROM " + tableName + ";";
             ResultSet rs = stm.executeQuery(sql);
             while (rs.next()) {
-                LinkedList<String> link = new LinkedList<String>();
+                LinkedList<String> link = new LinkedList<>();
                 var length = values.split(",").length;
                 for (int i = 1; i <= length; i++) {
-                    rs.getString(i);
+                    link.add(rs.getString(i));
+                    
                 }
+                list.add(link);
             }
             return list;
         } catch (Exception e) {
@@ -98,13 +108,39 @@ public class Post implements SQLint {
     }
 
     @Override
-    public int updateRows(String tableName, String column, String conditionColumn, String[] conditions, String values) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public int updateRows(String tableName, String column, String conditionColumn, String[] conditions, String [] values) {
+        try{
+            String sql = "UPDATE " + tableName +  " SET " + column + " = CASE " + conditionColumn;
+            int min = Math.min( conditions.length, values.length);
+            for (int i=0; i < min; ++i){
+                sql += " WHEN " + conditions[i] + " THEN '" + values[i] + "'";
+            }
+            sql += "ELSE " + column + " END WHERE " + conditionColumn + " IN(";
+            for (int i = 0; i < min; ++i) sql += conditions[i] + ",";
+            sql = sql.substring(0, sql.length()-1);
+            sql += ");";
+            System.out.println(sql);
+            return stm.executeUpdate(sql);
+        }catch (Exception e){
+            return -1;
+        }
     }
 
     @Override
     public boolean updateColumns(String tableName, String[] columns, String[] values, String condition) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        try{
+            String sql = "UPDATE " + tableName + " SET ";
+            int min = Math.min( columns.length, values.length);
+            for (int i=0; i < min; ++i){
+               sql += columns[i] + " = " + values [i] + ", ";  
+            }
+            sql = sql.substring(0, sql.length() - 2);
+            sql += " WHERE " + condition + ";" ; 
+            System.out.println(sql);
+            return stm.execute(sql);
+        }catch (Exception e){
+            return false;
+        }
     }
 
     @Override
@@ -121,12 +157,24 @@ public class Post implements SQLint {
 
     @Override
     public int deleteRows(String tableName, String condition) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+       try{
+           String sql = "DELETE " + tableName + " WHERE " + condition + ";"; 
+           int ResultSet = stm.executeUpdate(sql);
+           return ResultSet;
+       }catch (Exception e) {
+           return -1;
+       }
     }
 
     @Override
     public boolean addColumn(String tableName, String column) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+       try{
+           String sql = "ALTER TABLE " + tableName + " ADD COLUMN " + column + ";";
+           boolean ResultSet = stm.execute(sql);
+           return ResultSet;
+       }catch (Exception e) {
+           return false;
+       }
     }
 
     @Override
