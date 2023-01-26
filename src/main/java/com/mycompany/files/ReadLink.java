@@ -5,29 +5,33 @@
 package com.mycompany.files;
 import com.opencsv.CSVReader;
 import java.io.FileReader;
+import java.util.ArrayList;
 
 /**
  *
  * @author Student
  */
 public class ReadLink {
-    public static void readLine(String file)
+    public static String[][] readLine(String file)
 {
     try {
-        FileReader filereader = new FileReader(file);
-          CSVReader csvReader = new CSVReader(filereader);
-          String[] nextRecord;
+            ArrayList <String[]> list = new ArrayList <> ();
+            FileReader filereader = new FileReader(file);
+            CSVReader csvReader = new CSVReader(filereader);
+            String[] nextRecord;
             while ((nextRecord = csvReader.readNext()) != null) {
-            for (String cell : nextRecord) {
-            System.out.print(cell + "\t");
+//                for (String cell : nextRecord) {
+                list.add(nextRecord);
+//                    System.out.print(cell + "\t");
+//                }
             }
-            System.out.println();
-            }
+            return list.toArray(new String [list.size()][]);
         }
         catch (Exception e) {
-        e.printStackTrace();
-}
-}
+            e.printStackTrace();
+            return null;
+        }
+    }
 }
     
 
